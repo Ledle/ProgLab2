@@ -2,11 +2,14 @@
 typedef struct user {
 	int login,password;
 	char* name;
-
+};
+typedef struct discipline {
+	test* test;
+	double* multiplier;
 };
 typedef struct group {
 	user* member;
-	discipline discipline;
+	discipline* disciplines;
 };
 typedef struct question {
 	char* text,answer;
@@ -17,8 +20,4 @@ typedef struct test {
 	int* result;
 	discipline* discipline;
 };
-typedef struct discipline {
-	test* test;
-	double* multiplier;
-	group group;
-};
+
