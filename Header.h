@@ -5,7 +5,7 @@ typedef struct user {
 	group* group;
 };
 typedef struct discipline {
-	test* test;
+	test** test;
 	double* multiplier; //коэффициенты тестов для подсчёта рейтинга
 	group** groups;
 };

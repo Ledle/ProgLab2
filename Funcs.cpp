@@ -7,8 +7,13 @@ user makeuser(int login, int password, group* group, const char* name) {
 	user.password = password;
 	user.group = group;
 	user.name = name;
+	return user;
 }
-discipline makediscip(test* tests, double* multiplier);//создание дисциплины
+discipline makediscip(test** tests, double* multiplier) {
+	discipline disc;
+	disc.test = tests;
+	disc.multiplier = multiplier;
+}
 question makequestion(const char* text, const char* answer, int value);//создание вопроса
 test maketest(question questions[]);//создание теста
 bool addgroup(discipline* disc, group* group);//добавление группы в дисциплину
