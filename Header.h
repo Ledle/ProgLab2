@@ -1,7 +1,7 @@
 #pragma once
 typedef struct user {
 	int login,password;
-	char* name;
+	const char* name;
 	group* group;
 };
 typedef struct discipline {
@@ -24,7 +24,7 @@ typedef struct test {
 };
 
 int starttest(test test, user student);//maybe
-user makeuser(int login, int password, group group, const char* name);//создание пользователя
+user makeuser(int login, int password, group* group, const char* name);//создание пользователя
 discipline makediscip(test* tests, double* multiplier);//создание дисциплины
 question makequestion(const char* text, const char* answer, int value);//создание вопроса
 test maketest(question questions[]);//создание теста

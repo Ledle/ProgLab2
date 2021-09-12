@@ -140,6 +140,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ProgLab2.cpp" />
+    <ClCompile Include="Funcs.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Header.h" />
