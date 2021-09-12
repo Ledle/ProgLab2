@@ -1,4 +1,6 @@
 #pragma once
+#include <iostream>
+#include <string>
 typedef struct test {
 	struct question* question;
 	int* result;//результаты пользователей
@@ -16,7 +18,7 @@ typedef struct group {
 	struct discipline** disciplines;
 };
 typedef struct question {
-	const char* text,answer;
+	char* text,*answer;
 	int value;//количество баллов за вопрос
 };
 typedef struct user {
@@ -28,7 +30,7 @@ typedef struct user {
 int starttest(test test, user student);//maybe
 user makeuser(int login, int password, group* group, const char* name);//создание пользователя
 discipline makediscip(test* tests, double* multiplier,int n);//создание дисциплины
-question makequestion(const char* text, const char* answer, int value);//создание вопроса
+question makequestion(char* text, char* answer, int value);//создание вопроса
 test maketest(question questions[]);//создание теста
 bool addgroup(discipline* disc, group* group);//добавление группы в дисциплину
 bool adduser(group* group, user students[], int n = 1);//добавление пользователя в группу

@@ -22,7 +22,15 @@ discipline makediscip(test** tests, double* multiplier, int n,const char* name) 
 	strcpy(disc.name, name);
 	return disc;
 }
-question makequestion(const char* text, const char* answer, int value);//создание вопроса
+question makequestion(char* text, char* answer, int value) {
+	question quest;
+	quest.text = (char*)malloc(strlen(text)+1);
+	memcpy(quest.text, text, strlen(text) + 1);
+	quest.answer = (char*)malloc(strlen(answer) + 1);
+	memcpy(quest.answer, answer, strlen(answer) + 1);
+	quest.value = value;
+	return quest;
+}
 test maketest(question questions[]);//создание теста
 bool addgroup(discipline* disc, group* group);//добавление группы в дисциплину
 bool adduser(group* group, user students[]);//добавление пользователя в группу
