@@ -4,7 +4,8 @@
 typedef struct test {
 	struct question* question;
 	int* result;//результаты пользователей
-	struct discipline** discipline;
+	struct discipline* discipline;
+	int n;
 };
 typedef struct discipline {
 	struct test** test;
@@ -31,7 +32,7 @@ int starttest(test test, user student);//maybe
 user makeuser(int login, int password, group* group, const char* name);//создание пользователя
 discipline makediscip(test* tests, double* multiplier,int n);//создание дисциплины
 question makequestion(char* text, char* answer, int value);//создание вопроса
-test maketest(question questions[]);//создание теста
+test maketest(question questions[], discipline* disc, int n);//создание теста
 bool addgroup(discipline* disc, group* group);//добавление группы в дисциплину
 bool adduser(group* group, user students[], int n = 1);//добавление пользователя в группу
 int addtest(discipline* disc, test* test,int multiplier);//добавление теста в дисциплину

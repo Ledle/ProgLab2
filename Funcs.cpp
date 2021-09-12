@@ -31,8 +31,17 @@ question makequestion(char* text, char* answer, int value) {
 	quest.value = value;
 	return quest;
 }
-test maketest(question questions[]);//создание теста
-bool addgroup(discipline* disc, group* group);//добавление группы в дисциплину
+test maketest(question questions[],discipline* disc,int n) {
+	test t;
+	question check = questions[n - 1];//проверка правильности n
+	t.discipline = disc;
+	t.question = (question*)malloc(sizeof(question) * n);
+	memcpy(t.question, questions, sizeof(question) * n);
+	t.result = (int*)(malloc(sizeof(int)*2));
+	t.n = n;
+	return t;
+}
+bool addgroup(discipline* disc, group* group);
 bool adduser(group* group, user students[]);//добавление пользователя в группу
 int addtest(discipline* disc, test* test, int multiplier);//добавление теста в дисциплину
 int addresult(test* test, int login, int result);//запись результата пользователя
