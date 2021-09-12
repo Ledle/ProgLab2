@@ -1,3 +1,5 @@
+#define _CRT_SECURE_NO_WARNINGS
+
 #include "Header.h"
 #include <iostream>
 
@@ -7,12 +9,23 @@ user makeuser(int login, int password, group* group, const char* name) {
 	user.password = password;
 	user.group = group;
 	user.name = name;
+	return user;
 }
-discipline makediscip(test* tests, double* multiplier);//создание дисциплины
+discipline makediscip(test** tests, double* multiplier, int n,const char* name) {
+	discipline disc;
+	disc.test = (test**)malloc(sizeof(test*)*n);
+	memcpy(disc.test, tests, sizeof(test*) * n);
+	disc.multiplier = (double*)malloc(sizeof(double*) * n);
+	memcpy(disc.multiplier, multiplier, sizeof(double*) * n);
+	disc.n = n;
+	disc.name = (char*)malloc(sizeof(name));
+	strcpy(disc.name, name);
+	return disc;
+}
 question makequestion(const char* text, const char* answer, int value);//создание вопроса
 test maketest(question questions[]);//создание теста
 bool addgroup(discipline* disc, group* group);//добавление группы в дисциплину
-bool adduser(group* group, user students[], int n = 1);//добавление пользователя в группу
+bool adduser(group* group, user students[]);//добавление пользователя в группу
 int addtest(discipline* disc, test* test, int multiplier);//добавление теста в дисциплину
 int addresult(test* test, int login, int result);//запись результата пользователя
 void showgroup(group group);

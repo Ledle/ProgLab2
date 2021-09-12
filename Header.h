@@ -1,31 +1,33 @@
 #pragma once
-typedef struct user {
-	int login,password;
-	const char* name;
-	group* group;
+typedef struct test {
+	struct question* question;
+	int* result;//результаты пользователей
+	struct discipline** discipline;
 };
 typedef struct discipline {
-	test* test;
+	struct test** test;
 	double* multiplier; //коэффициенты тестов для подсчёта рейтинга
-	group** groups;
+	struct group** groups;
+	int n;
+	char* name;
 };
 typedef struct group {
-	user** students;
-	discipline** disciplines;
+	struct user** students;
+	struct discipline** disciplines;
 };
 typedef struct question {
 	const char* text,answer;
 	int value;//количество баллов за вопрос
 };
-typedef struct test {
-	question* question;
-	int* result;//результаты пользователей
-	discipline** discipline;
+typedef struct user {
+	int login, password;
+	const char* name;
+	struct group* group;
 };
 
 int starttest(test test, user student);//maybe
 user makeuser(int login, int password, group* group, const char* name);//создание пользователя
-discipline makediscip(test* tests, double* multiplier);//создание дисциплины
+discipline makediscip(test* tests, double* multiplier,int n);//создание дисциплины
 question makequestion(const char* text, const char* answer, int value);//создание вопроса
 test maketest(question questions[]);//создание теста
 bool addgroup(discipline* disc, group* group);//добавление группы в дисциплину
