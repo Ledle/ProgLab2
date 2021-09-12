@@ -17,6 +17,7 @@ typedef struct discipline {
 typedef struct group {
 	struct user** students;
 	struct discipline** disciplines;
+	int n;
 };
 typedef struct question {
 	char* text,*answer;
@@ -33,8 +34,9 @@ user makeuser(int login, int password, group* group, const char* name);//создани
 discipline makediscip(test* tests, double* multiplier,int n);//создание дисциплины
 question makequestion(char* text, char* answer, int value);//создание вопроса
 test maketest(question questions[], discipline* disc, int n);//создание теста
+int adddisc(group* group,discipline* disc);//добавление дисциплины в группу
 bool addgroup(discipline* disc, group* group);//добавление группы в дисциплину
-bool adduser(group* group, user students[], int n = 1);//добавление пользователя в группу
+int adduser(group* group, user students[], int n = 1);//добавление пользователя в группу
 int addtest(discipline* disc, test* test,int multiplier);//добавление теста в дисциплину
 int addresult(test* test, int login, int result);//запись результата пользователя
 void showgroup(group group);
