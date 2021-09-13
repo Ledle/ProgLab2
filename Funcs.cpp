@@ -47,7 +47,7 @@ int adddisc(group* group, discipline* disc) {
 	memcpy(buf,(*group).disciplines, sizeof(discipline*) * ((*group).nstudents -1));
 	buf[(*group).nstudents - 1] = disc;
 	free((*group).disciplines);
-	memcpy((*group).disciplines, buf, (*group).nstudents);
+	(*group).disciplines = buf;
 	return (*group).nstudents;
 }
 int addgroup(discipline* disc, group* gr) {
@@ -56,10 +56,18 @@ int addgroup(discipline* disc, group* gr) {
 	memcpy(buf, (*disc).groups, sizeof(group*) * ((*disc).ngroups - 1));
 	buf[(*disc).ngroups - 1] = gr;
 	free((*disc).groups);
-	memcpy((*disc).groups, buf, sizeof(group*) * ((*disc).ngroups));
+	(*disc).groups = buf;
 	return (*disc).ngroups;
 }
-int adduser(group* group, user students[]);//добавление пользователя в группу
+int adduser(group* gr, user* student) {
+	(*gr).nstudents++;
+	user** buf = (user**)malloc(sizeof(user*) * (*gr).nstudents);
+	memcpy(buf, (*gr).students, sizeof(user*) * ((*gr).nstudents - 1));
+	buf[(*gr).nstudents - 1] = student;
+	free((*gr).students);
+	(*gr).students = buf;
+	return (*gr).nstudents;
+}
 int addtest(discipline* disc, test* test, int multiplier);//добавление теста в дисциплину
 int addresult(test* test, int login, int result);//запись результата пользователя
 void showgroup(group group);
