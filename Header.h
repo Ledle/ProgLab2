@@ -11,13 +11,14 @@ typedef struct discipline {
 	struct test** test;
 	double* multiplier; //коэффициенты тестов для подсчёта рейтинга
 	struct group** groups;
-	int n;
+	int nstudents,ngroups;
 	char* name;
 };
 typedef struct group {
 	struct user** students;
 	struct discipline** disciplines;
-	int n;
+	int nstudents,ndiscips;
+	char* name;
 };
 typedef struct question {
 	char* text,*answer;
@@ -35,7 +36,7 @@ discipline makediscip(test* tests, double* multiplier,int n);//создание дисципли
 question makequestion(char* text, char* answer, int value);//создание вопроса
 test maketest(question questions[], discipline* disc, int n);//создание теста
 int adddisc(group* group,discipline* disc);//добавление дисциплины в группу
-bool addgroup(discipline* disc, group* group);//добавление группы в дисциплину
+int addgroup(discipline* disc, group* gr);//добавление группы в дисциплину
 int adduser(group* group, user students[], int n = 1);//добавление пользователя в группу
 int addtest(discipline* disc, test* test,int multiplier);//добавление теста в дисциплину
 int addresult(test* test, int login, int result);//запись результата пользователя
