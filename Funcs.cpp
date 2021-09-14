@@ -38,7 +38,8 @@ test maketest(question questions[],discipline* disc,int n) {
 	t.question = (question*)malloc(sizeof(question) * n);
 	memcpy(t.question, questions, sizeof(question) * n);
 	t.result = (int*)(malloc(sizeof(int)*2));
-	t.n = n;
+	t.nres = 0;
+	t.nquests = n;
 	return t;
 }
 int adddisc(group* group, discipline* disc) {
@@ -82,7 +83,17 @@ int addtest(discipline* disc, test* tst, double multiplier) {
 	(*disc).test = buf;
 	return (*disc).ntests;
 }
-int addresult(test* test, int login, int result);//запись результата пользователя
+int addresult(test* tst, int login, int result) {
+	int a = (*tst).nres * 2;
+	(*tst).result[a] = login;
+	(*tst).result[a + 1] = result;
+	(*tst).nres++;
+	int* buf = (int*)malloc(sizeof(int) * (((*tst).nres * 2)+2));
+	memcpy(buf, (*tst).result, sizeof(int) * (((*tst).nres - 1) + 2));
+	free((*tst).result);
+	(*tst).result = buf;
+	return (*tst).nres;
+}
 void showgroup(group group);
 void showdiscip(discipline disc);
 void showtest(test test);

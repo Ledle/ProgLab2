@@ -5,7 +5,7 @@ typedef struct test {
 	struct question* question;
 	int* result;//результаты пользователей
 	struct discipline* discipline;
-	int n;
+	int nres,nquests;
 };
 typedef struct discipline {
 	struct test** test;
