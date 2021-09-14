@@ -17,7 +17,7 @@ discipline makediscip(test** tests, double* multiplier, int numbertests,const ch
 	memcpy(disc.test, tests, sizeof(test*) * numbertests);
 	disc.multiplier = (double*)malloc(sizeof(double*) * numbertests);
 	memcpy(disc.multiplier, multiplier, sizeof(double*) * numbertests);
-	disc.nstudents = numbertests;
+	disc.ntests = numbertests;
 	disc.name = (char*)malloc(sizeof(name));
 	strcpy(disc.name, name);
 	return disc;
@@ -68,7 +68,20 @@ int adduser(group* gr, user* student) {
 	(*gr).students = buf;
 	return (*gr).nstudents;
 }
-int addtest(discipline* disc, test* test, int multiplier);//добавление теста в дисциплину
+int addtest(discipline* disc, test* tst, double multiplier) {
+	(*disc).ntests++;
+	test** buf = (test**)malloc(sizeof(test*) * (*disc).ntests);
+	double* bufm = (double*)malloc(sizeof(double) * (*disc).ntests);
+	memcpy(buf, (*disc).test, sizeof(test*) * ((*disc).ntests - 1));
+	memcpy(bufm, (*disc).multiplier, sizeof(double*) * ((*disc).ntests - 1));
+	buf[(*disc).ntests - 1] = tst;
+	bufm[(*disc).ntests - 1] = multiplier;
+	free((*disc).multiplier);
+	free((*disc).test);
+	(*disc).multiplier = bufm;
+	(*disc).test = buf;
+	return (*disc).ntests;
+}
 int addresult(test* test, int login, int result);//запись результата пользователя
 void showgroup(group group);
 void showdiscip(discipline disc);

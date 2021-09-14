@@ -11,7 +11,7 @@ typedef struct discipline {
 	struct test** test;
 	double* multiplier; //коэффициенты тестов для подсчёта рейтинга
 	struct group** groups;
-	int nstudents,ngroups;
+	int ntests,ngroups;
 	char* name;
 };
 typedef struct group {
@@ -38,7 +38,7 @@ test maketest(question questions[], discipline* disc, int n);//создание теста
 int adddisc(group* group,discipline* disc);//добавление дисциплины в группу
 int addgroup(discipline* disc, group* gr);//добавление группы в дисциплину
 int adduser(group* group, user* student);//добавление пользователя в группу
-int addtest(discipline* disc, test* test,int multiplier);//добавление теста в дисциплину
+int addtest(discipline* disc, test* tst,int multiplier);//добавление теста в дисциплину
 int addresult(test* test, int login, int result);//запись результата пользователя
 void showgroup(group group);
 void showdiscip(discipline disc);
