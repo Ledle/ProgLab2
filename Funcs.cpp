@@ -11,25 +11,29 @@ user makeuser(int login, int password, group* group, const char* name) {
 	user.name = name;
 	return user;
 }
-discipline makediscip(test** tests, double* multiplier, int numbertests,const char* name) {
+discipline makediscip(const char* name) {
 	discipline disc;
-	disc.test = (test**)malloc(sizeof(test*)*numbertests);
-	memcpy(disc.test, tests, sizeof(test*) * numbertests);
-	disc.multiplier = (double*)malloc(sizeof(double*) * numbertests);
-	memcpy(disc.multiplier, multiplier, sizeof(double*) * numbertests);
-	disc.ntests = numbertests;
+	disc.test = (test**)malloc(sizeof(test*));
+	disc.ntests = 0;
 	disc.name = (char*)malloc(sizeof(name));
 	strcpy(disc.name, name);
 	return disc;
 }
-question makequestion(char* text, char* answer, int value) {
+question makequestion(const char* text, const char* answer, int value) {
 	question quest;
-	quest.text = (char*)malloc(strlen(text)+1);
+	int a = strlen(text) + 1;
+	quest.text = (char*)malloc(a);
 	memcpy(quest.text, text, strlen(text) + 1);
 	quest.answer = (char*)malloc(strlen(answer) + 1);
 	memcpy(quest.answer, answer, strlen(answer) + 1);
 	quest.value = value;
 	return quest;
+}
+question* qsts(int n, question a, ...) {
+	question* q = (question*)malloc(sizeof(question) * n);
+	question* src = &a;
+	memcpy(q, src, sizeof(question) * n);
+	return q;
 }
 test maketest(question questions[],discipline* disc,int n) {
 	test t;
@@ -40,6 +44,12 @@ test maketest(question questions[],discipline* disc,int n) {
 	t.result = (int*)(malloc(sizeof(int)*2));
 	t.nres = 0;
 	t.nquests = n;
+	(*disc).ntests++;
+	test** buf = (test**)malloc(sizeof(test*) * (*disc).ntests);
+	memcpy(buf, (*disc).test, sizeof(test*) * ((*disc).ntests - 1));
+	buf[(*disc).ntests - 1] = &t;
+	free((*disc).test);
+	(*disc).test = buf;
 	return t;
 }
 int adddisc(group* group, discipline* disc) {
@@ -68,20 +78,6 @@ int adduser(group* gr, user* student) {
 	free((*gr).students);
 	(*gr).students = buf;
 	return (*gr).nstudents;
-}
-int addtest(discipline* disc, test* tst, double multiplier) {
-	(*disc).ntests++;
-	test** buf = (test**)malloc(sizeof(test*) * (*disc).ntests);
-	double* bufm = (double*)malloc(sizeof(double) * (*disc).ntests);
-	memcpy(buf, (*disc).test, sizeof(test*) * ((*disc).ntests - 1));
-	memcpy(bufm, (*disc).multiplier, sizeof(double*) * ((*disc).ntests - 1));
-	buf[(*disc).ntests - 1] = tst;
-	bufm[(*disc).ntests - 1] = multiplier;
-	free((*disc).multiplier);
-	free((*disc).test);
-	(*disc).multiplier = bufm;
-	(*disc).test = buf;
-	return (*disc).ntests;
 }
 int addresult(test* tst, int login, int result) {
 	int a = (*tst).nres * 2;
