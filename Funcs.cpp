@@ -57,49 +57,34 @@ test maketest(question questions[],discipline* disc,int n) {
 	t.nres = 0;
 	t.nquests = n;
 	(*disc).ntests++;
-	test** buf = (test**)malloc(sizeof(test*) * (*disc).ntests);
-	memcpy(buf, (*disc).test, sizeof(test*) * ((*disc).ntests - 1));
-	buf[(*disc).ntests - 1] = &t;
-	free((*disc).test);
-	(*disc).test = buf;
+	(*disc).test = (test**)realloc((*disc).test, sizeof(test*) * (*disc).ntests);
+	disc->test[(*disc).ntests - 1] = &t;
 	return t;
 }
 int adddisc(group* gr, discipline* disc) {
 	(*gr).ndiscips++;
-	discipline **buf = (discipline**)malloc(sizeof(discipline*)*(*gr).ndiscips);
-	memcpy(buf,(*gr).disciplines, sizeof(discipline*) * ((*gr).ndiscips -1));
-	buf[(*gr).ndiscips - 1] = disc;
-	free((*gr).disciplines);
-	(*gr).disciplines = buf;
+	(*gr).disciplines = (discipline**)realloc((*gr).disciplines, sizeof(discipline*)*(gr->ndiscips));
+	(*gr).disciplines[(*gr).ndiscips - 1] = disc;
 	addgroup(disc, gr);
 	return (*gr).ndiscips;
 }
 int addgroup(discipline* disc, group* gr) {
 	(*disc).ngroups++;
-	group** buf = (group**)malloc(sizeof(group*) * (*disc).ngroups);
-	memcpy(buf, (*disc).groups, sizeof(group*) * ((*disc).ngroups - 1));
-	buf[(*disc).ngroups - 1] = gr;
-	free((*disc).groups);
-	(*disc).groups = buf;
+	(*disc).groups = (group**)realloc((*disc).groups, sizeof(group*) * (*disc).ngroups);
+	(*disc).groups[(*disc).ngroups - 1] = gr;
 	return (*disc).ngroups;
 }
 int adduser(group* gr, user* student) {
 	(*gr).nstudents++;
-	user** buf = (user**)malloc(sizeof(user*) * (*gr).nstudents);
-	memcpy(buf, (*gr).students, sizeof(user*) * ((*gr).nstudents - 1));
-	buf[(*gr).nstudents - 1] = student;
-	free((*gr).students);
-	(*gr).students = buf;
+	(*gr).students = (user**)realloc((*gr).students, sizeof(user*) * (*gr).nstudents);
+	(*gr).students[(*gr).nstudents - 1] = student;
 	return (*gr).nstudents;
 }
 int addresult(test* tst, int login, int result) {
 	(*tst).result[(*tst).nres * 2] = login;
 	(*tst).result[(*tst).nres * 2 + 1] = result;
 	(*tst).nres++;
-	int* buf = (int*)malloc(sizeof(int) * (((*tst).nres * 2)+2));
-	memcpy(buf, (*tst).result, sizeof(int) * (((*tst).nres - 1) + 2));
-	free((*tst).result);
-	(*tst).result = buf;
+	(*tst).result = (int*)realloc((*tst).result,sizeof(int) * (((*tst).nres * 2)+2));
 	return (*tst).nres;
 }
 void showgroup(group group) {
@@ -117,6 +102,8 @@ void showgroup(group group) {
 		}
 	}
 }
-void showdiscip(discipline disc);
+void showdiscip(discipline disc) {
+
+}
 void showtest(test test);
 void showuser(user student);
