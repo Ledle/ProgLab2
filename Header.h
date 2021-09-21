@@ -29,7 +29,8 @@ typedef struct user {
 	struct group* group;
 };
 
-user makeuser(int login, int password, group* group, const char* name);//создание пользователя
+group makegroup(const char* name); //создание группы
+user makeuser(int login, int password, const char* name);//создание пользователя
 discipline makediscip(const char* name);//создание дисциплины
 question makequestion(const char* text, const char* answer, int value);//создание вопроса
 question* qsts(int n, question a, ...);

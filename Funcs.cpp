@@ -3,18 +3,30 @@
 #include "Header.h"
 #include <iostream>
 
-user makeuser(int login, int password, group* group, const char* name) {
-	user user;
-	user.login = login;
-	user.password = password;
-	user.group = group;
-	user.name = name;
-	return user;
+group makegroup(const char* name) {
+	group gr;
+	gr.students = (user**)malloc(sizeof(user*));
+	gr.nstudents = 0;
+	gr.ndiscips = 0;
+	gr.name = (char*)malloc(sizeof(name));
+	gr.disciplines = (discipline**)malloc(sizeof(discipline*));
+	strcpy(gr.name, name);
+	return gr;
+}
+user makeuser(int login, int password, const char* name) {
+	user us;
+	us.login = login;
+	us.password = password;
+	us.group = NULL;
+	us.name = name;
+	return us;
 }
 discipline makediscip(const char* name) {
 	discipline disc;
 	disc.test = (test**)malloc(sizeof(test*));
 	disc.ntests = 0;
+	disc.ngroups = 0;
+	disc.groups = (group**)malloc(sizeof(group*));
 	disc.name = (char*)malloc(sizeof(name));
 	strcpy(disc.name, name);
 	return disc;
@@ -52,14 +64,15 @@ test maketest(question questions[],discipline* disc,int n) {
 	(*disc).test = buf;
 	return t;
 }
-int adddisc(group* group, discipline* disc) {
-	(*group).nstudents++;
-	discipline **buf = (discipline**)malloc(sizeof(discipline*)*(*group).nstudents);
-	memcpy(buf,(*group).disciplines, sizeof(discipline*) * ((*group).nstudents -1));
-	buf[(*group).nstudents - 1] = disc;
-	free((*group).disciplines);
-	(*group).disciplines = buf;
-	return (*group).nstudents;
+int adddisc(group* gr, discipline* disc) {
+	(*gr).ndiscips++;
+	discipline **buf = (discipline**)malloc(sizeof(discipline*)*(*gr).ndiscips);
+	memcpy(buf,(*gr).disciplines, sizeof(discipline*) * ((*gr).ndiscips -1));
+	buf[(*gr).ndiscips - 1] = disc;
+	free((*gr).disciplines);
+	(*gr).disciplines = buf;
+	addgroup(disc, gr);
+	return (*gr).ndiscips;
 }
 int addgroup(discipline* disc, group* gr) {
 	(*disc).ngroups++;
@@ -80,9 +93,8 @@ int adduser(group* gr, user* student) {
 	return (*gr).nstudents;
 }
 int addresult(test* tst, int login, int result) {
-	int a = (*tst).nres * 2;
-	(*tst).result[a] = login;
-	(*tst).result[a + 1] = result;
+	(*tst).result[(*tst).nres * 2] = login;
+	(*tst).result[(*tst).nres * 2 + 1] = result;
 	(*tst).nres++;
 	int* buf = (int*)malloc(sizeof(int) * (((*tst).nres * 2)+2));
 	memcpy(buf, (*tst).result, sizeof(int) * (((*tst).nres - 1) + 2));
@@ -90,7 +102,21 @@ int addresult(test* tst, int login, int result) {
 	(*tst).result = buf;
 	return (*tst).nres;
 }
-void showgroup(group group);
+void showgroup(group group) {
+	printf_s("Group: %s\n", group.name);
+	if (group.nstudents > 0) {
+		printf_s("Students:\n");
+		for (int i = 0; i < group.nstudents; i++) {
+			printf_s(" %d) Name: %s Login: %d\n", i, group.students[i]->name, group.students[i]->login);
+		}
+	}
+	if (group.ndiscips > 0) {
+		printf_s("Disciplines:\n");
+		for (int i = 0; i < group.ndiscips; i++) {
+			printf_s(" %d) Discipline: %s Tests: %d\n", i,group.disciplines[i]->name,group.disciplines[i]->ntests);
+		}
+	}
+}
 void showdiscip(discipline disc);
 void showtest(test test);
 void showuser(user student);
