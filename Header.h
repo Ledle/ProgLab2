@@ -6,6 +6,7 @@ typedef struct test {
 	int* result;//результаты пользователей
 	struct discipline* discipline;
 	int nres,nquests;
+	char* name;
 };
 typedef struct discipline {
 	struct test** test;
@@ -34,7 +35,7 @@ user makeuser(int login, int password, const char* name);//создание пользователя
 discipline makediscip(const char* name);//создание дисциплины
 question makequestion(const char* text, const char* answer, int value);//создание вопроса
 question* qsts(int n, question a, ...);
-test maketest(question questions[], discipline* disc, int n);//создание теста
+test maketest(question questions[], discipline* disc, int n, const char* name);//создание теста
 
 int adddisc(group* group,discipline* disc);//добавление дисциплины в группу
 int addgroup(discipline* disc, group* gr);//добавление группы в дисциплину

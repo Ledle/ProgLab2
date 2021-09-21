@@ -47,7 +47,7 @@ question* qsts(int n, question a, ...) {
 	memcpy(q, src, sizeof(question) * n);
 	return q;
 }
-test maketest(question questions[],discipline* disc,int n) {
+test maketest(question questions[],discipline* disc,int n, const char* name) {
 	test t;
 	question check = questions[n - 1];//проверка правильности n
 	t.discipline = disc;
@@ -62,6 +62,8 @@ test maketest(question questions[],discipline* disc,int n) {
 	buf[(*disc).ntests - 1] = &t;
 	free((*disc).test);
 	(*disc).test = buf;
+	t.name = (char*)malloc(sizeof(name));
+	strcpy(t.name, name);
 	return t;
 }
 int adddisc(group* gr, discipline* disc) {
@@ -117,6 +119,20 @@ void showgroup(group group) {
 		}
 	}
 }
-void showdiscip(discipline disc);
+void showdiscip(discipline disc) {
+	printf_s("Discipline: % s\n", disc.name);
+	if (disc.ngroups > 0) {
+		printf_s("Groups:\n");
+		for (int i = 0; i < disc.ngroups; i++) {
+			printf_s(" %d) Name: %s Students: %d",i,disc.groups[i]->name, disc.groups[i]->nstudents);
+		}
+	}
+	if (disc.ntests > 0) {
+		printf_s("Tests:\n");
+		for (int i = 0; i < disc.ntests; i++) {
+			printf_s(" %d) %s questions: %d",i,disc.test[i]->name, disc.test[i]->nquests);
+		}
+	}
+}
 void showtest(test test);
 void showuser(user student);

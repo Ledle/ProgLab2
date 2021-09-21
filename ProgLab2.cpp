@@ -12,8 +12,8 @@ int main(){
 	user to = mu(2, 2, "Fedle");
 	adduser(&PI, &on);
 	adduser(&PI, &to);
-	maketest(qsts(2, mq("for", "while", 5), mq("what", "the", 5)), &disc, 2);
+	maketest(qsts(2, mq("for", "while", 5), mq("what", "the", 5)), &disc, 2,"FirstTest");
 	addresult(disc.test[0], on.login, 50);
 	adddisc(&PI, &disc);
-	showgroup(PI);
+	showdiscip(disc);
 }
