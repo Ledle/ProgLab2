@@ -168,34 +168,44 @@ void delgroup(discipline* disc, int numbergroup) {
 	}
 }
 void showgroup(group group) {
-	printf_s("Group: %s\n", group.name);
+	printf_s("Group %s:\n", group.name);
 	if (group.nstudents > 0) {
-		printf_s("Students:\n");
 		for (int i = 0; i < group.nstudents; i++) {
 			printf_s(" %d) Name: %s Login: %d\n", i, group.students[i]->name, group.students[i]->login);
 		}
 	}
 	if (group.ndiscips > 0) {
-		printf_s("Disciplines:\n");
+		printf_s(" Disciplines:\n");
 		for (int i = 0; i < group.ndiscips; i++) {
-			printf_s(" %d) Discipline: %s Tests: %d\n", i,group.disciplines[i]->name,group.disciplines[i]->ntests);
+			printf_s("  %d) Discipline: %s Tests: %d\n", i, group.disciplines[i]->name, group.disciplines[i]->ntests);
 		}
 	}
 }
 void showdiscip(discipline disc) {
-	printf_s("Discipline: % s\n", disc.name);
+	printf_s("Discipline %s:\n", disc.name);
 	if (disc.ngroups > 0) {
-		printf_s("Groups:\n");
+		printf_s(" Groups:\n");
 		for (int i = 0; i < disc.ngroups; i++) {
-			printf_s(" %d) Name: %s Students: %d",i,disc.groups[i]->name, disc.groups[i]->nstudents);
+			printf_s("  %d) Name: %s Students: %d\n", i, disc.groups[i]->name, disc.groups[i]->nstudents);
 		}
 	}
-	if (disc.ntests > 0) {
-		printf_s("Tests:\n");
-		for (int i = 0; i < disc.ntests; i++) {
-			printf_s(" %d) %s questions: %d",i,disc.test[i]->name, disc.test[i]->nquests);
+	if (disc.ntests >= 0) {
+		printf_s(" Tests: %d\n", disc.ntests);
+	}
+}
+void showtest(test test) {
+	printf_s("Test %s in %s\n", test.name, test.discipline->name);
+	if (test.nquests > 0) {
+		printf_s(" Questions:\n");
+		for (int i = 0; i < test.nquests; i++) {
+			printf_s("  %d)Question: %s\n   Answer: %s(%d balls)\n", i, test.question[i].text, test.question[i].answer, test.question[i].value);
+		}
+	}
+	if (test.nres > 0) {
+		printf_s(" Results:\n");
+		for (int i = 0; i < test.nres; i++) {
+			printf_s("  %d) Login: %d Result: %d\n", i, test.result[i * 2], test.result[i * 2 + 1]);
 		}
 	}
 }
-void showtest(test test);
 void showuser(user student);
