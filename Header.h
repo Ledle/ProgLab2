@@ -44,19 +44,19 @@ int adduser(group* group, user* student);//добавление пользователя в группу
 int addtest(discipline* disc, test* tst,double multiplier);//добавление теста в дисциплину
 int addresult(test* test, int login, int result);//запись результата пользователя
 
-void rnuser(user* student, const char* name);
-void rndisc(discipline* disc, const char* name);
-void rntest(test* test, const char* name);
-void rngroup(group* gr, const char* name);
-void changepass(user* student, int password);
-void movuser(user* student, group* gr);
-void changequestion(question* qs, const char* text, const char* answer, int value);
-void deldisc(group* gr, int numberdiscip);
-void delstudent(group* gr, int numberuser);
-void deltest(discipline* disc, int numbertest);
-void delgroup(discipline* disc, int numbergroup);
+void rnuser(user* student, const char* name);//переименовать пользователя
+void rndisc(discipline* disc, const char* name);//переименовать дисциплину
+void rntest(test* test, const char* name);//переименовать тест
+void rngroup(group* gr, const char* name);//переименовать группу
+void changepass(user* student, int password);//сменить пароль пользователя
+void movuser(user* student, group* gr);//сменить группу пользователя
+void changequestion(question* qs, const char* text, const char* answer, int value);//изменить вопрос в тесте
+void deldisc(group* gr, int numberdiscip);//удалить дисциплину из группы
+void delstudent(group* gr, int numberuser);//удалить студента из группы
+void deltest(discipline* disc, int numbertest);//удалить тест из дисциплины
+void delgroup(discipline* disc, int numbergroup);//удалить группу из дисциплины
 
-void showgroup(group group);
-void showdiscip(discipline disc);
-void showtest(test test);
-void showuser(user student);
+void showgroup(group group);//вывод группы в консоль
+void showdiscip(discipline disc);//вывод дисциплины в консоль
+void showtest(test test);//вывод теста в консоль
+void showuser(user student);//вывод пользователя в консоль

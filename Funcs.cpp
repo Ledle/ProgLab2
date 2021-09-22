@@ -143,6 +143,7 @@ void deldisc(group* gr, int numberdiscip) {
 void delstudent(group* gr, int numberuser) {
 	if (numberuser < gr->nstudents && gr->nstudents>0) {
 		gr->nstudents--;
+		gr->students[numberuser]->group = NULL;
 		for (int i = numberuser; i < gr->nstudents; i++) {
 			gr->students[i] = gr->students[i + 1];
 		}
