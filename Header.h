@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <string>
+#include <cstring>
 typedef struct test {
 	struct question* question;
 	int* result;//результаты пользователей
@@ -26,7 +27,7 @@ typedef struct question {
 };
 typedef struct user {
 	int login, password;
-	const char* name;
+	char* name;
 	struct group* group;
 };
 
@@ -42,6 +43,18 @@ int addgroup(discipline* disc, group* gr);//добавление группы в дисциплину
 int adduser(group* group, user* student);//добавление пользователя в группу
 int addtest(discipline* disc, test* tst,double multiplier);//добавление теста в дисциплину
 int addresult(test* test, int login, int result);//запись результата пользователя
+
+void rnuser(user* student, const char* name);
+void rndisc(discipline* disc, const char* name);
+void rntest(test* test, const char* name);
+void rngroup(group* gr, const char* name);
+void changepass(user* student, int password);
+void movuser(user* student, group* gr);
+void changequestion(question* qs, const char* text, const char* answer, int value);
+void deldisc(group* gr, int numberdiscip);
+void delstudent(group* gr, int numberuser);
+void deltest(discipline* disc, int numbertest);
+void delgroup(discipline* disc, int numbergroup);
 
 void showgroup(group group);
 void showdiscip(discipline disc);
