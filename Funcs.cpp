@@ -208,4 +208,7 @@ void showtest(test test) {
 		}
 	}
 }
-void showuser(user student);
+void showuser(user student) {
+	printf_s("User %s:\n", student.name);
+	printf_s(" Group: %s\n Login: %d Password: %d\n", student.group->name, student.login, student.password);
+}
