@@ -62,8 +62,8 @@ void showtest(test test);//вывод теста в консоль
 void showuser(user student);//вывод пользователя в консоль
 void showquestion(question quest);//вывод вопроса в консоль
 
-group inpgroup(group* thisgroup);
-user* inpuser(group* gr);
-discipline inpdiscip();
-question inpquestion();
-test inptest(discipline* disc);
+group inpgroup(group* thisgroup);//ввод группы в консоль
+user* inpuser(group* gr);//ввод студента в консоль
+discipline inpdiscip();//ввод дисциплины в консоль
+question inpquestion();//ввод вопроса в консоль
+test inptest(discipline* disc);//ввод теста в консоль

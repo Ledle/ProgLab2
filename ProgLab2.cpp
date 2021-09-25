@@ -61,5 +61,14 @@ int main(){
 	deltest(&disc, 0);
 	printf_s("After:\n");
 	showdiscip(disc);
-
+	discipline discip = inpdiscip();
+	inptest(&discip);
+	showtest(*discip.test[0]);
+	question newquest = inpquestion();
+	changequestion(&(discip.test[0]->question[0]), newquest.text, newquest.answer, newquest.value);
+	showtest(*discip.test[0]);
+	group pi03 = inpgroup(&pi03);
+	showgroup(pi03);
+	user* student = inpuser(&pi03);
+	showgroup(pi03);
 }
