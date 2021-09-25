@@ -60,3 +60,10 @@ void showgroup(group group);//вывод группы в консоль
 void showdiscip(discipline disc);//вывод дисциплины в консоль
 void showtest(test test);//вывод теста в консоль
 void showuser(user student);//вывод пользователя в консоль
+void showquestion(question quest);//вывод вопроса в консоль
+
+group inpgroup(group* thisgroup);
+user* inpuser(group* gr);
+discipline inpdiscip();
+question inpquestion();
+test inptest(discipline* disc);

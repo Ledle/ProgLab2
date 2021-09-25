@@ -5,7 +5,7 @@
 
 int main(){
 	discipline disc = makediscip("Math");
-	maketest(qsts(4, mq("2+2", "4", 2), mq("9+7", "16", 3), mq("5*3", "15", 4), mq("18/3", "6", 5)), &disc, 4, "Test 1");
+	test t = maketest(qsts(4, mq("2+2", "4", 2), mq("9+7", "16", 3), mq("5*3", "15", 4), mq("18/3", "6", 5)), &disc, 4, "Test 1");
 	group PI = makegroup("PI");
 	user sergey = mu(5613, 112233, "Sergey");
 	user john = mu(9852, 541234, "John");
@@ -61,4 +61,5 @@ int main(){
 	deltest(&disc, 0);
 	printf_s("After:\n");
 	showdiscip(disc);
+
 }

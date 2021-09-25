@@ -2,6 +2,7 @@
 
 #include "Header.h"
 #include <iostream>
+#include <stdio.h>
 
 group makegroup(const char* name) {
 	group gr;
@@ -49,21 +50,22 @@ question* qsts(int n, question a, ...) {
 	return q;
 }
 test maketest(question questions[],discipline* disc,int n, const char* name) {
-	test t;
+	test* t = (test*)malloc(sizeof(test));
 	question check = questions[n - 1];//проверка правильности n
-	t.discipline = disc;
-	t.question = (question*)malloc(sizeof(question) * n);
-	memcpy(t.question, questions, sizeof(question) * n);
-	t.result = (int*)(malloc(sizeof(int) * 2));
-	t.nres = 0;
-	t.nquests = n;
+	t->discipline = disc;
+	t->question = (question*)malloc(sizeof(question) * n);
+	memcpy(t->question, questions, sizeof(question) * n);
+	t->result = (int*)(malloc(sizeof(int) * 2));
+	t->nres = 0;
+	t->nquests = n;
 	(*disc).ntests++;
 	(*disc).test = (test**)realloc((*disc).test, sizeof(test*) * (*disc).ntests);
-	disc->test[(*disc).ntests - 1] = &t;
-	t.name = (char*)malloc(sizeof(name));
-	strcpy(t.name, name);
-	return t;
+	disc->test[(*disc).ntests - 1] = t;
+	t->name = (char*)malloc(sizeof(name));
+	strcpy(t->name, name);
+	return *t;
 }
+
 int adddisc(group* gr, discipline* disc) {
 	(*gr).ndiscips++;
 	(*gr).disciplines = (discipline**)realloc((*gr).disciplines, sizeof(discipline*) * (gr->ndiscips));
@@ -87,6 +89,7 @@ int addresult(test* tst, int login, int result) {
 	(*tst).nres++;
 	return (*tst).nres;
 }
+
 void rnuser(user* student, const char* name) {
 	student->name = (char*)realloc(student->name, strlen(name));
 	strcpy(student->name, name);
@@ -168,6 +171,7 @@ void delgroup(discipline* disc, int numbergroup) {
 		disc->groups = (group**)realloc(disc->groups, sizeof(group*) * disc->ngroups);
 	}
 }
+
 void showgroup(group group) {
 	printf_s("Group %s:\n", group.name);
 	if (group.nstudents > 0) {
@@ -199,7 +203,7 @@ void showtest(test test) {
 	if (test.nquests > 0) {
 		printf_s(" Questions:\n");
 		for (int i = 0; i < test.nquests; i++) {
-			printf_s("  %d)Question: %s\n   Answer: %s(%d balls)\n", i, test.question[i].text, test.question[i].answer, test.question[i].value);
+			printf_s("  %d)Question: %s\n   Answer: %s(%d points)\n", i, test.question[i].text, test.question[i].answer, test.question[i].value);
 		}
 	}
 	if (test.nres > 0) {
@@ -212,4 +216,73 @@ void showtest(test test) {
 void showuser(user student) {
 	printf_s("User %s:\n", student.name);
 	printf_s(" Group: %s\n Login: %d Password: %d\n", student.group->name, student.login, student.password);
+}
+void showquestion(question quest) {
+	printf_s("Text: %s\n",quest.text);
+	printf_s("Answer: %s(%d pts)\n",quest.answer,quest.value);
+}
+
+group inpgroup(group* thisgroup) {
+	char name[128];
+	int n;
+	printf_s("Enter name of group: ");
+	gets_s(name, 128);
+	*thisgroup = makegroup(name);
+	printf_s("Enter number of students: ");
+	scanf_s("%d", &n);
+	while (getchar() != '\n');
+	user** students = (user**)malloc(sizeof(user*) * n);
+	for (int i = 0; i < n; i++) {
+		printf_s("%d)\n", i);
+		students[i] = inpuser(thisgroup);
+	}
+	return *thisgroup;
+}
+user* inpuser(group* gr) {
+	char name[128];
+	int login, password;
+	user* student = (user*)malloc(sizeof(user)); 
+	printf_s("Enter name of student: ");
+	gets_s(name, 128);
+	printf_s("Enter login: ");
+	scanf_s("%d", &login);
+	while (getchar() != '\n');
+	printf_s("Enter password: ");
+	scanf_s("%d", &password);
+	while (getchar() != '\n');
+	*student = makeuser(login, password, name);
+	adduser(gr, student);
+	return student;
+}
+discipline inpdiscip() {
+	char name[128];
+	printf_s("Enter name of discipline: ");
+	gets_s(name, 128);
+	return makediscip(name);
+}
+question inpquestion() {
+	char text[128], answer[128];
+	int pts;
+	printf_s("Enter question: ");
+	gets_s(text,128);
+	printf_s("Enter answer: ");
+	gets_s(answer, 128);
+	printf_s("Enter number of points: ");
+	scanf_s("%d", &pts);
+	while (getchar() != '\n');
+	return makequestion(text, answer, pts);
+}
+test inptest(discipline* disc) {
+	int n;
+	char name[64];
+	printf_s("Enter name of test: ");
+	gets_s(name,64);
+	printf_s("Enter number of questions: ");
+	scanf_s("%d", &n);
+	while (getchar() != '\n');
+	question* quests = (question*)malloc(sizeof(question) * n);
+	for (int i = 0; i < n; i++) {
+		quests[i] = inpquestion();
+	}
+	return maketest(quests, disc, n, name);
 }
