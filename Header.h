@@ -36,12 +36,11 @@ user makeuser(int login, int password, const char* name);//создание пользователя
 discipline makediscip(const char* name);//создание дисциплины
 question makequestion(const char* text, const char* answer, int value);//создание вопроса
 question* qsts(int n, question a, ...);
-test maketest(question questions[], discipline* disc, int n, const char* name);//создание теста
+test maketest(question questions[], int n, const char* name);//создание теста
 
 int adddisc(group* group,discipline* disc);//добавление дисциплины в группу
-int addgroup(discipline* disc, group* gr);//добавление группы в дисциплину
 int adduser(group* group, user* student);//добавление пользователя в группу
-int addtest(discipline* disc, test* tst,double multiplier);//добавление теста в дисциплину
+int addtest(discipline* disc, test* tst);//добавление теста в дисциплину
 int addresult(test* test, int login, int result);//запись результата пользователя
 
 void rnuser(user* student, const char* name);//переименовать пользователя

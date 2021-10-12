@@ -49,23 +49,25 @@ question* qsts(int n, question a, ...) {
 	memcpy(q, src, sizeof(question) * n);
 	return q;
 }
-test maketest(question questions[],discipline* disc,int n, const char* name) {
+test maketest(question questions[],int n, const char* name) {
 	test* t = (test*)malloc(sizeof(test));
-	question check = questions[n - 1];//проверка правильности n
-	t->discipline = disc;
+	questions[n - 1];//проверка правильности n
 	t->question = (question*)malloc(sizeof(question) * n);
 	memcpy(t->question, questions, sizeof(question) * n);
 	t->result = (int*)(malloc(sizeof(int) * 2));
 	t->nres = 0;
 	t->nquests = n;
-	(*disc).ntests++;
-	(*disc).test = (test**)realloc((*disc).test, sizeof(test*) * (*disc).ntests);
-	disc->test[(*disc).ntests - 1] = t;
 	t->name = (char*)malloc(sizeof(name));
 	strcpy(t->name, name);
 	return *t;
 }
-
+int addtest(discipline* disc, test* tst) {
+	tst->discipline = disc;
+	(*disc).ntests++;
+	(*disc).test = (test**)realloc((*disc).test, sizeof(test*) * (*disc).ntests);
+	disc->test[(*disc).ntests - 1] = tst;
+	return disc->ntests;
+}
 int adddisc(group* gr, discipline* disc) {
 	(*gr).ndiscips++;
 	(*gr).disciplines = (discipline**)realloc((*gr).disciplines, sizeof(discipline*) * (gr->ndiscips));
@@ -284,5 +286,5 @@ test inptest(discipline* disc) {
 	for (int i = 0; i < n; i++) {
 		quests[i] = inpquestion();
 	}
-	return maketest(quests, disc, n, name);
+	return maketest(quests, n, name);
 }
