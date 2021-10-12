@@ -139,13 +139,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="discipline.cpp" />
+    <ClCompile Include="group.cpp" />
     <ClCompile Include="ProgLab2.cpp" />
-    <ClCompile Include="Funcs.cpp" />
+    <ClCompile Include="question.cpp" />
+    <ClCompile Include="test.cpp" />
+    <ClCompile Include="user.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="discipline.h" />
     <ClInclude Include="group.h" />
-    <ClInclude Include="Header.h" />
     <ClInclude Include="question.h" />
     <ClInclude Include="test.h" />
     <ClInclude Include="user.h" />
